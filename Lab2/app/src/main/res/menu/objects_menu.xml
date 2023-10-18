@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/objects"
+        android:title="@string/objects_title"
+        app:showAsAction="ifRoom" >
+        <menu>
+
+            <group android:checkableBehavior="single">
+                <item android:id="@+id/point"
+                    android:title="@string/point_title" />
+
+                <item android:id="@+id/line"
+                    android:title="@string/line_title" />
+
+                <item android:id="@+id/rectangle"
+                    android:title="@string/rectangle_title" />
+
+                <item android:id="@+id/ellipse"
+                    android:title="@string/ellipse_title" />
+            </group>
+
+        </menu>
+
+    </item>
+
+</menu>
