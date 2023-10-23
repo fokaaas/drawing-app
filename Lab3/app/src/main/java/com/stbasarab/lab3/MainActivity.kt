@@ -12,6 +12,7 @@ import com.stbasarab.lab3.editors.RectangleEditor
 
 class MainActivity : AppCompatActivity() {
   private lateinit var shapeObjectEditor: ShapeObjectsEditor
+  private var prevItem: MenuItem? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -31,11 +32,13 @@ class MainActivity : AppCompatActivity() {
       getString(R.string.line_title) -> shapeObjectEditor.editor = LineEditor()
       getString(R.string.rectangle_title) -> shapeObjectEditor.editor = RectangleEditor()
       getString(R.string.ellipse_title) -> shapeObjectEditor.editor = EllipseEditor()
+      getString(R.string.objects_title) -> return true
     }
-    if (item.title != getString(R.string.objects_title)) {
-      title = item.titleCondensed
-      setContentView(shapeObjectEditor)
-    }
+    prevItem?.icon?.setTint(getColor(R.color.white))
+    item.icon?.setTint(getColor(R.color.blue))
+    prevItem = item
+    title = item.titleCondensed
+    setContentView(shapeObjectEditor)
     return super.onOptionsItemSelected(item);
   }
 }
