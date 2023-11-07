@@ -5,8 +5,10 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.stbasarab.lab4.editors.CubeEditor
 import com.stbasarab.lab4.editors.EllipseEditor
 import com.stbasarab.lab4.editors.LineEditor
+import com.stbasarab.lab4.editors.LineOOEditor
 import com.stbasarab.lab4.editors.PointEditor
 import com.stbasarab.lab4.editors.RectangleEditor
 
@@ -28,9 +30,9 @@ class MainActivity : AppCompatActivity() {
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
     when (item.title) {
-      getString(R.string.point_title) -> shapeObjectEditor.editor = PointEditor()
+      getString(R.string.point_title) -> shapeObjectEditor.editor = LineOOEditor()
       getString(R.string.line_title) -> shapeObjectEditor.editor = LineEditor()
-      getString(R.string.rectangle_title) -> shapeObjectEditor.editor = RectangleEditor()
+      getString(R.string.rectangle_title) -> shapeObjectEditor.editor = CubeEditor()
       getString(R.string.ellipse_title) -> shapeObjectEditor.editor = EllipseEditor()
       getString(R.string.objects_title) -> return true
     }

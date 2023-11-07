@@ -7,11 +7,7 @@ class RectangleShape(
   paintColor: Int,
   fillColor: Int,
   effect: PathEffect?
-): Shape(
-  paintColor,
-  fillColor,
-  effect
-) {
+): Shape(paintColor, fillColor, effect) {
   override fun draw(canvas: Canvas) {
     setStrokeStyle()
     canvas.drawRect(startX, startY, endX, endY, paint)
