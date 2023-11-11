@@ -5,40 +5,36 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.view.MotionEvent
 import android.view.View
-import com.stbasarab.lab4.editors.Editor
+import android.widget.Toast
 import com.stbasarab.lab4.shapes.Shape
+import kotlin.reflect.full.primaryConstructor
 
 private const val SHAPES_LENGTH = 103
 
-open class ShapeObjectsEditor(context: Context): View(context) {
-  lateinit var editor: Editor
+open class MyEditor(context: Context): View(context) {
+  lateinit var shape: Shape
 
   private var shapes: Array<Shape?> = Array(SHAPES_LENGTH) { null }
   private var isLayout = true
   private lateinit var bitmap: Bitmap
-  private var startX = 0f
-  private var startY = 0f
-  private var endX = 0f
-  private var endY = 0f
 
-  protected lateinit var canvas: Canvas
+  private lateinit var canvas: Canvas
   
   override fun onTouchEvent(event: MotionEvent?): Boolean {
-    endX = event!!.x
-    endY = event.y
+    shape.onTouchUp(event!!.x, event.y)
 
     when (event.action) {
       MotionEvent.ACTION_DOWN -> {
         isLayout = true
-        startX = endX
-        startY = endY
+        shape.onTouchDown(event.x, event.y)
       }
       MotionEvent.ACTION_MOVE -> {
         invalidate()
       }
       MotionEvent.ACTION_UP -> {
         isLayout = false
-        addShape(editor.getShape(canvas, startX, startY, endX, endY))
+        addShape(shape)
+        newShape()
       }
     }
 
@@ -48,7 +44,17 @@ open class ShapeObjectsEditor(context: Context): View(context) {
 
   private fun addShape(shape: Shape) {
     val index = shapes.indexOfFirst { it == null }
-    if (index != -1) shapes[index] = shape
+    if (index != -1) {
+      shapes[index] = shape
+    } else {
+      val alert = context.getString(R.string.alert)
+      Toast.makeText(context, alert, Toast.LENGTH_SHORT).show()
+    }
+  }
+
+  private fun newShape() {
+    val constructor = shape::class.primaryConstructor
+    shape = constructor!!.call(shape.borderColor, shape.fillColor)
   }
 
   override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -61,6 +67,6 @@ open class ShapeObjectsEditor(context: Context): View(context) {
     super.onDraw(canvas)
     canvas.drawBitmap(bitmap, 0f, 0f, null)
     for (shape in shapes) shape?.draw(canvas)
-    if (isLayout) editor.drawLayout(canvas, startX, startY, endX, endY)
+    if (isLayout) shape.drawFrame(canvas)
   }
 }

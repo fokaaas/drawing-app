@@ -1,17 +1,21 @@
 package com.stbasarab.lab4.shapes
 
 import android.graphics.Canvas
-import android.graphics.PathEffect
 
-class RectangleShape(
-  paintColor: Int,
-  fillColor: Int,
-  effect: PathEffect?
-): Shape(paintColor, fillColor, effect) {
+class RectangleShape(borderColor: Int, fillColor: Int): Shape(borderColor, fillColor) {
   override fun draw(canvas: Canvas) {
     setStrokeStyle()
-    canvas.drawRect(startX, startY, endX, endY, paint)
-    setFillStyle()
-    canvas.drawRect(startX, startY, endX, endY, paint)
+    drawCenterRect(canvas, startX, startY, endX, endY)
+  }
+
+  override fun drawFrame(canvas: Canvas) {
+    setFrameMode()
+    drawCenterRect(canvas, startX, startY, endX, endY)
+  }
+
+  fun drawCenterRect(canvas: Canvas, startX: Float, startY: Float, endX: Float, endY: Float) {
+    val centerX = 2 * startX - endX
+    val centerY = 2 * startY - endY
+    canvas.drawRect(centerX, centerY, endX, endY, paint)
   }
 }

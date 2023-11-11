@@ -22,6 +22,16 @@
 		android:icon="@drawable/ellipse_icon"
 		app:showAsAction="always" />
 
+	<item android:id="@+id/circle_line_tool"
+		android:title="@string/circle_line_title"
+		android:icon="@drawable/circle_line_icon"
+		app:showAsAction="always" />
+
+	<item android:id="@+id/cube_tool"
+		android:title="@string/cube_title"
+		android:icon="@drawable/cube_icon"
+		app:showAsAction="always" />
+
 	<item android:id="@+id/objects"
 		android:title="@string/objects_title"
 		app:showAsAction="always" >
@@ -38,6 +48,12 @@
 
 			<item android:id="@+id/ellipse"
 				android:title="@string/ellipse_title" />
+
+			<item android:id="@+id/circle_line"
+				android:title="@string/circle_line_title" />
+
+			<item android:id="@+id/cube"
+				android:title="@string/cube_title" />
 
 		</menu>
 

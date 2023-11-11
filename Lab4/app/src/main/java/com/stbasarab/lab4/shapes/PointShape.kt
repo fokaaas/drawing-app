@@ -1,14 +1,14 @@
 package com.stbasarab.lab4.shapes
 
 import android.graphics.Canvas
-import android.graphics.PathEffect
 
-class PointShape(
-  paintColor: Int,
-  fillColor: Int,
-  effect: PathEffect?
-): Shape(paintColor, fillColor, effect) {
+class PointShape(borderColor: Int, fillColor: Int): Shape(borderColor, fillColor) {
   override fun draw(canvas: Canvas) {
-    canvas.drawPoint(endX, endY, paint);
+    setStrokeStyle()
+    canvas.drawPoint(endX, endY, paint)
+  }
+
+  override fun drawFrame(canvas: Canvas) {
+    setFrameMode()
   }
 }

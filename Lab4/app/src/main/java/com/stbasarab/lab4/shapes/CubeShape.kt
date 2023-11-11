@@ -1,32 +1,31 @@
 package com.stbasarab.lab4.shapes
 
 import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.PathEffect
-import kotlin.math.abs
-import kotlin.math.sqrt
 
-class CubeShape(
-  paintColor: Int,
-  fillColor: Int,
-  effect: PathEffect?
-): LineShape(paintColor, fillColor, effect) {
-  private val rectangleShape = RectangleShape(paintColor, fillColor, effect)
+class CubeShape(borderColor: Int, fillColor: Int): LineShape(borderColor, fillColor) {
+  private val rectangleShape = RectangleShape(borderColor, fillColor)
 
   override fun draw(canvas: Canvas) {
-    val dx = endX - startX
-    val dy = endY - startY
-
-    val side = (dx + dy) / 2
-    canvas.drawRect(startX, startY, startX + side, startY + side, paint)
-    canvas.drawRect(endX - side, endY - side, endX, endY, paint)
-    canvas.drawLine(startX, startY, endX - side, endY - side, paint)
-    canvas.drawLine(startX + side, startY + side, endX, endY, paint)
-    canvas.drawLine(startX + side, startY, endX, endY - side, paint)
-    canvas.drawLine(startX, startY + side, endX - side, endY, paint)
+    rectangleShape.setStrokeStyle()
+    setStrokeStyle()
+    drawCube(canvas)
   }
 
-  private fun drawSquare(x: Float, y: Float, delta: Float) {
-    rectangleShape.onTouchDown(x, y)
+  override fun drawFrame(canvas: Canvas) {
+    rectangleShape.setFrameMode()
+    setFrameMode()
+    drawCube(canvas)
+  }
+
+  private fun drawCube(canvas: Canvas) {
+    val side = (endX - startX + endY - startY) / 2
+
+    rectangleShape.drawCenterRect(canvas, startX, startY, startX + side, startY + side)
+    rectangleShape.drawCenterRect(canvas, endX - side, endY - side, endX, endY)
+
+    super.drawLine(canvas, startX - side, startY - side, endX - 2 * side, endY - 2 * side)
+    super.drawLine(canvas, startX + side, startY + side, endX, endY)
+    super.drawLine(canvas, startX + side, startY - side, endX, endY - 2 * side)
+    super.drawLine(canvas, startX - side, startY + side, endX - 2 * side, endY)
   }
 }

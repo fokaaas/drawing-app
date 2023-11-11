@@ -1,17 +1,14 @@
 package com.stbasarab.lab4.shapes
 
 import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.DashPathEffect
 import android.graphics.Paint
-import android.graphics.PathEffect
 
 
 private const val STROKE_WITH = 10f
 
-abstract class Shape(
-  private val paintColor: Int,
-  private val fillColor: Int,
-  private val effect: PathEffect?
-) {
+abstract class Shape(val borderColor: Int, val fillColor: Int) {
   protected var startX = 0f
   protected var startY = 0f
   protected var endX = 0f
@@ -19,22 +16,29 @@ abstract class Shape(
 
   protected val paint = Paint().apply {
     style = Paint.Style.STROKE
-    color = paintColor
+    color = borderColor
     isAntiAlias
     isDither
     strokeWidth = STROKE_WITH
     strokeCap = Paint.Cap.ROUND
-    pathEffect = effect
   }
 
-  protected fun setStrokeStyle() {
+  fun setStrokeStyle() {
     paint.style = Paint.Style.STROKE
-    paint.color = paintColor
+    paint.color = borderColor
+    paint.pathEffect = null
   }
 
-  protected fun setFillStyle() {
+  fun setFillStyle() {
     paint.style = Paint.Style.FILL
     paint.color = fillColor
+    paint.pathEffect = null
+  }
+
+  fun setFrameMode() {
+    paint.style = Paint.Style.STROKE
+    paint.color = Color.BLACK
+    paint.pathEffect = DashPathEffect(floatArrayOf(30f, 20f), 0f)
   }
 
   fun onTouchDown(x: Float, y: Float) {
@@ -48,4 +52,5 @@ abstract class Shape(
   }
 
   abstract fun draw(canvas: Canvas)
+  abstract fun drawFrame(canvas: Canvas)
 }
