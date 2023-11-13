@@ -7,8 +7,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import com.stbasarab.lab4.shapes.CircleLineShape
 import com.stbasarab.lab4.shapes.CubeShape
 import com.stbasarab.lab4.shapes.EllipseShape
