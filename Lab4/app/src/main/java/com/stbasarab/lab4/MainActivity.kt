@@ -7,6 +7,8 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.stbasarab.lab4.shapes.CircleLineShape
 import com.stbasarab.lab4.shapes.CubeShape
 import com.stbasarab.lab4.shapes.EllipseShape
@@ -21,6 +23,7 @@ class MainActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
+    window.decorView.apply { systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION }
     myEditor = MyEditor(this)
   }
 

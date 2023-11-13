@@ -43,19 +43,6 @@
     android:title="@string/cube_title"
     app:showAsAction="always" />
 
-
-  <item
-    android:id="@+id/back_tool"
-    android:icon="@drawable/back_icon"
-    android:title="@string/back_title"
-    app:showAsAction="always" />
-
-  <item
-    android:id="@+id/delete_tool"
-    android:icon="@drawable/delete_icon"
-    android:title="@string/delete_title"
-    app:showAsAction="always" />
-
   <item
     android:id="@+id/objects"
     android:title="@string/objects_title"
@@ -95,5 +82,17 @@
     </menu>
 
   </item>
+
+  <item
+    android:id="@+id/back_tool"
+    android:icon="@drawable/back_icon"
+    android:title="@string/back_title"
+    app:showAsAction="always" />
+
+  <item
+    android:id="@+id/delete_tool"
+    android:icon="@drawable/delete_icon"
+    android:title="@string/delete_title"
+    app:showAsAction="always" />
 
 </menu>
