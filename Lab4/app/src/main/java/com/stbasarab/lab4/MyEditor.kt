@@ -17,7 +17,6 @@ open class MyEditor(context: Context): View(context) {
   private var shapes: Array<Shape?> = Array(SHAPES_LENGTH) { null }
   private var isLayout = true
   private lateinit var bitmap: Bitmap
-
   private lateinit var canvas: Canvas
   
   override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -55,6 +54,24 @@ open class MyEditor(context: Context): View(context) {
   private fun newShape() {
     val constructor = shape::class.primaryConstructor
     shape = constructor!!.call(shape.borderColor, shape.fillColor)
+  }
+
+  fun removeLastShape() {
+    val i = findLastShape()
+    if (i != -1) shapes[i] = null
+  }
+
+  fun removeAll() {
+    for (i in shapes.indices) {
+      shapes[i] = null
+    }
+  }
+
+  private fun findLastShape(): Int {
+    for (i in shapes.size - 1 downTo 0) {
+      if (shapes[i] != null) return i
+    }
+    return -1
   }
 
   override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {

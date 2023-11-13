@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.stbasarab.lab4.shapes.CircleLineShape
 import com.stbasarab.lab4.shapes.CubeShape
@@ -29,6 +30,14 @@ class MainActivity : AppCompatActivity() {
     return true
   }
 
+  fun activateButton(item: MenuItem) {
+    prevItem?.icon?.setTint(getColor(R.color.white))
+    item.icon?.setTint(getColor(R.color.blue))
+    prevItem = item
+    title = item.titleCondensed
+    onOptionsItemSelected(item)
+  }
+
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
     when (item.title) {
       getString(R.string.point_title) -> myEditor.shape = PointShape(Color.BLACK, Color.TRANSPARENT)
@@ -37,12 +46,10 @@ class MainActivity : AppCompatActivity() {
       getString(R.string.ellipse_title) -> myEditor.shape = EllipseShape(Color.BLACK, Color.CYAN)
       getString(R.string.circle_line_title) -> myEditor.shape = CircleLineShape(Color.BLACK, Color.CYAN)
       getString(R.string.cube_title) -> myEditor.shape = CubeShape(Color.BLACK, Color.TRANSPARENT)
+      getString(R.string.back_title) -> myEditor.removeLastShape()
+      getString(R.string.delete_title) -> myEditor.removeAll()
       getString(R.string.objects_title) -> return true
     }
-    prevItem?.icon?.setTint(getColor(R.color.white))
-    item.icon?.setTint(getColor(R.color.blue))
-    prevItem = item
-    title = item.titleCondensed
     setContentView(myEditor)
     return super.onOptionsItemSelected(item)
   }
