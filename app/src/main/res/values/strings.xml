@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Лаб. 4</string>
+    <string name="app_name">Лаб. 5</string>
     <string name="objects_title">Об\'єкти</string>
     <string name="point_title">Крапка</string>
     <string name="line_title">Лінія</string>
@@ -9,5 +9,10 @@
     <string name="cube_title">Куб</string>
     <string name="delete_title">Очистити</string>
     <string name="back_title">Назад</string>
+    <string name="next_title">Вперед</string>
+    <string name="table_title">Таблиця</string>
+    <string name="save_title">Зберегти</string>
+    <string name="open_title">Відкрити</string>
+    <string name="info_title">Довідка</string>
     <string name="alert">Куди лізеш! Більше не можна!</string>
 </resources>

@@ -1,0 +1,7 @@
+<resources>
+
+    <style name="Theme.Drawing_App" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/violet</item>
+        <item name="colorPrimaryDark">@color/violet</item>
+    </style>
+</resources>
