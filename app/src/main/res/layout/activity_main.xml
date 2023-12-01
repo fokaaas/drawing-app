@@ -20,6 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:tag="@string/point_title"
+            android:onClick="onViewSelected"
             android:src="@drawable/point_icon">
         </ImageButton>
 
@@ -29,6 +31,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:tag="@string/line_title"
+            android:onClick="onViewSelected"
             android:src="@drawable/line_icon">
         </ImageButton>
 
@@ -38,6 +42,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:tag="@string/rectangle_title"
+            android:onClick="onViewSelected"
             android:src="@drawable/rectangle_icon">
         </ImageButton>
 
@@ -47,6 +53,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:tag="@string/ellipse_title"
+            android:onClick="onViewSelected"
             android:src="@drawable/ellipse_icon">
         </ImageButton>
 
@@ -56,6 +64,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:tag="@string/circle_line_title"
+            android:onClick="onViewSelected"
             android:src="@drawable/circle_line_icon">
         </ImageButton>
 
@@ -65,6 +75,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:tag="@string/cube_title"
+            android:onClick="onViewSelected"
             android:src="@drawable/cube_icon">
         </ImageButton>
 
@@ -74,8 +86,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:tag="@string/table_title"
+            android:onClick="onViewSelected"
             android:src="@drawable/table_icon">
         </ImageButton>
     </LinearLayout>
+    <com.stbasarab.drawing_app.MyEditor
+        android:id="@+id/editor"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
 </LinearLayout>

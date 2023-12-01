@@ -9,32 +9,32 @@
 
             <item
                 android:id="@+id/point"
-                android:onClick="activateButton"
+                android:onClick="onItemSelected"
                 android:title="@string/point_title" />
 
             <item
                 android:id="@+id/line"
-                android:onClick="activateButton"
+                android:onClick="onItemSelected"
                 android:title="@string/line_title" />
 
             <item
                 android:id="@+id/rectangle"
-                android:onClick="activateButton"
+                android:onClick="onItemSelected"
                 android:title="@string/rectangle_title" />
 
             <item
                 android:id="@+id/ellipse"
-                android:onClick="activateButton"
+                android:onClick="onItemSelected"
                 android:title="@string/ellipse_title" />
 
             <item
                 android:id="@+id/circle_line"
-                android:onClick="activateButton"
+                android:onClick="onItemSelected"
                 android:title="@string/circle_line_title" />
 
             <item
                 android:id="@+id/cube"
-                android:onClick="activateButton"
+                android:onClick="onItemSelected"
                 android:title="@string/cube_title" />
 
         </menu>
@@ -44,34 +44,40 @@
     <item
         android:id="@+id/back_tool"
         android:icon="@drawable/back_icon"
+        android:onClick="onItemSelected"
         android:title="@string/back_title"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/next_tool"
         android:icon="@drawable/next_icon"
+        android:onClick="onItemSelected"
         android:title="@string/next_title"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/delete_tool"
         android:icon="@drawable/delete_icon"
+        android:onClick="onItemSelected"
         android:title="@string/delete_title"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/save"
+        android:id="@+id/save_tool"
         android:title="@string/save_title"
+        android:onClick="onItemSelected"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/open"
+        android:id="@+id/open_tool"
         android:title="@string/open_title"
+        android:onClick="onItemSelected"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/info"
+        android:id="@+id/info_tool"
         android:title="@string/info_title"
+        android:onClick="onItemSelected"
         app:showAsAction="ifRoom" />
 
 </menu>

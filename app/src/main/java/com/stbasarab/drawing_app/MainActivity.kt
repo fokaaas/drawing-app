@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import com.stbasarab.drawing_app.shapes.CircleLineShape
 import com.stbasarab.drawing_app.shapes.CubeShape
@@ -16,13 +17,16 @@ import com.stbasarab.drawing_app.shapes.RectangleShape
 
 class MainActivity : AppCompatActivity() {
   private lateinit var myEditor: MyEditor
-  private var prevItem: MenuItem? = null
+  private lateinit var prevButton: ImageButton
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
-    window.decorView.apply { systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION }
-    myEditor = MyEditor(this)
+    val point = findViewById<ImageButton>(R.id.point_tool)
+    myEditor = findViewById(R.id.editor)
+    prevButton = point
+    title = point.tag.toString()
+    myEditor.shape = PointShape(Color.BLACK, Color.TRANSPARENT)
   }
 
   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -31,16 +35,29 @@ class MainActivity : AppCompatActivity() {
     return true
   }
 
-  fun activateButton(item: MenuItem) {
-    prevItem?.icon?.setTint(getColor(R.color.white))
-    item.icon?.setTint(getColor(R.color.blue))
-    prevItem = item
-    title = item.titleCondensed
-    onOptionsItemSelected(item)
+  fun onViewSelected(view: View) {
+    val imageButton = findViewById<ImageButton>(view.id)
+    val tag = view.tag.toString()
+    imageButton.drawable.setTint(getColor(R.color.purple))
+    updateState(tag)
+    prevButton = imageButton
+    selectAction(tag)
   }
 
-  override fun onOptionsItemSelected(item: MenuItem): Boolean {
-    when (item.title) {
+  private fun updateState(name: String) {
+    prevButton.drawable?.setTint(getColor(R.color.white))
+    title = name
+  }
+
+  fun onItemSelected(item: MenuItem) {
+    val resourceName = resources.getResourceEntryName(item.itemId)
+    val title = item.title.toString()
+    if (!resourceName.endsWith("tool")) updateState(title)
+    selectAction(title)
+  }
+
+  private fun selectAction(name: String) {
+    when (name) {
       getString(R.string.point_title) -> myEditor.shape = PointShape(Color.BLACK, Color.TRANSPARENT)
       getString(R.string.line_title) -> myEditor.shape = LineShape(Color.BLACK, Color.TRANSPARENT)
       getString(R.string.rectangle_title) -> myEditor.shape = RectangleShape(Color.BLACK, Color.TRANSPARENT)
@@ -48,10 +65,8 @@ class MainActivity : AppCompatActivity() {
       getString(R.string.circle_line_title) -> myEditor.shape = CircleLineShape(Color.BLACK, Color.CYAN)
       getString(R.string.cube_title) -> myEditor.shape = CubeShape(Color.BLACK, Color.TRANSPARENT)
       getString(R.string.back_title) -> myEditor.removeLastShape()
+      getString(R.string.next_title) -> myEditor.restoreShape()
       getString(R.string.delete_title) -> myEditor.removeAll()
-      getString(R.string.objects_title) -> return true
     }
-    setContentView(myEditor)
-    return super.onOptionsItemSelected(item)
   }
 }

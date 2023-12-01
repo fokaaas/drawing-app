@@ -3,6 +3,7 @@ package com.stbasarab.drawing_app
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
@@ -11,14 +12,15 @@ import kotlin.reflect.full.primaryConstructor
 
 private const val SHAPES_LENGTH = 103
 
-open class MyEditor(context: Context): View(context) {
+open class MyEditor(context: Context, attributeSet: AttributeSet): View(context, attributeSet) {
   lateinit var shape: Shape
 
   private var shapes: Array<Shape?> = Array(SHAPES_LENGTH) { null }
+  private var removedShapes: Array<Shape?> = Array(SHAPES_LENGTH) { null }
   private var isLayout = true
   private lateinit var bitmap: Bitmap
   private lateinit var canvas: Canvas
-  
+
   override fun onTouchEvent(event: MotionEvent?): Boolean {
     shape.onTouchUp(event!!.x, event.y)
 
@@ -32,16 +34,15 @@ open class MyEditor(context: Context): View(context) {
       }
       MotionEvent.ACTION_UP -> {
         isLayout = false
-        addShape(shape)
-        newShape()
+        addShape(shape, shapes)
+        createShape()
       }
     }
 
-    invalidate()
+    resetRestore()
     return true
   }
-
-  private fun addShape(shape: Shape) {
+  private fun addShape(shape: Shape?, shapes: Array<Shape?>) {
     val index = shapes.indexOfFirst { it == null }
     if (index != -1) {
       shapes[index] = shape
@@ -51,27 +52,41 @@ open class MyEditor(context: Context): View(context) {
     }
   }
 
-  private fun newShape() {
+  private fun createShape() {
     val constructor = shape::class.primaryConstructor
     shape = constructor!!.call(shape.borderColor, shape.fillColor)
   }
 
   fun removeLastShape() {
-    val i = findLastShape()
-    if (i != -1) shapes[i] = null
+    val i = shapes.indexOfLast { it != null }
+    if (i != -1) {
+      addShape(shapes[i], removedShapes)
+      shapes[i] = null
+    }
+    invalidate()
+  }
+
+  fun restoreShape() {
+    val i = removedShapes.indexOfLast { it != null }
+    if (i != -1) {
+      addShape(removedShapes[i], shapes)
+      removedShapes[i] = null
+    }
+    invalidate()
   }
 
   fun removeAll() {
     for (i in shapes.indices) {
       shapes[i] = null
     }
+    resetRestore()
   }
 
-  private fun findLastShape(): Int {
-    for (i in shapes.size - 1 downTo 0) {
-      if (shapes[i] != null) return i
+  private fun resetRestore() {
+    for (i in removedShapes.indices) {
+      removedShapes[i] = null
     }
-    return -1
+    invalidate()
   }
 
   override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
