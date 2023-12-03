@@ -15,7 +15,7 @@ import com.stbasarab.drawing_app.shapes.LineShape
 import com.stbasarab.drawing_app.shapes.PointShape
 import com.stbasarab.drawing_app.shapes.RectangleShape
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), GetInstanceInterface {
   private lateinit var myEditor: MyEditor
   private lateinit var prevButton: ImageButton
 
@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
     val point = findViewById<ImageButton>(R.id.point_tool)
-    myEditor = findViewById(R.id.editor)
+    myEditor = MyEditor.getInstance(this)
     prevButton = point
     title = point.tag.toString()
     myEditor.shape = PointShape(Color.BLACK, Color.TRANSPARENT)
@@ -36,8 +36,9 @@ class MainActivity : AppCompatActivity() {
   }
 
   fun onViewSelected(view: View) {
+    if (prevButton == view) return
     val imageButton = findViewById<ImageButton>(view.id)
-    val tag = view.tag.toString()
+    val tag = imageButton.tag.toString()
     imageButton.drawable.setTint(getColor(R.color.purple))
     updateState(tag)
     prevButton = imageButton
@@ -68,5 +69,9 @@ class MainActivity : AppCompatActivity() {
       getString(R.string.next_title) -> myEditor.restoreShape()
       getString(R.string.delete_title) -> myEditor.removeAll()
     }
+  }
+
+  override fun getEditorInstance(): MyEditor {
+    return findViewById(R.id.editor)
   }
 }

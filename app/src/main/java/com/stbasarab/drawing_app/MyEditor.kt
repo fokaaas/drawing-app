@@ -12,7 +12,18 @@ import kotlin.reflect.full.primaryConstructor
 
 private const val SHAPES_LENGTH = 103
 
-open class MyEditor(context: Context, attributeSet: AttributeSet): View(context, attributeSet) {
+class MyEditor(context: Context, attributeSet: AttributeSet): View(context, attributeSet) {
+  companion object {
+    private var instance: MyEditor? = null
+
+    fun getInstance(editor: GetInstanceInterface?): MyEditor {
+      if (instance == null) {
+        instance = editor?.getEditorInstance()
+      }
+      return instance!!
+    }
+  }
+
   lateinit var shape: Shape
 
   private var shapes: Array<Shape?> = Array(SHAPES_LENGTH) { null }
@@ -20,6 +31,10 @@ open class MyEditor(context: Context, attributeSet: AttributeSet): View(context,
   private var isLayout = true
   private lateinit var bitmap: Bitmap
   private lateinit var canvas: Canvas
+
+  private fun getEditorViewInstance(): MyEditor {
+    return findViewById(R.id.editor)
+  }
 
   override fun onTouchEvent(event: MotionEvent?): Boolean {
     shape.onTouchUp(event!!.x, event.y)
