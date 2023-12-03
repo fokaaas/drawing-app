@@ -16,15 +16,16 @@ class MyEditor(context: Context, attributeSet: AttributeSet): View(context, attr
   companion object {
     private var instance: MyEditor? = null
 
-    fun getInstance(editor: GetInstanceInterface?): MyEditor {
+    fun getInstance(editor: GetEditorViewInterface?): MyEditor {
       if (instance == null) {
-        instance = editor?.getEditorInstance()
+        instance = editor?.getEditorViewInstance()
       }
       return instance!!
     }
   }
 
-  lateinit var shape: Shape
+  private lateinit var currentShape: Shape
+  private lateinit var table: Table
 
   private var shapes: Array<Shape?> = Array(SHAPES_LENGTH) { null }
   private var removedShapes: Array<Shape?> = Array(SHAPES_LENGTH) { null }
@@ -32,24 +33,21 @@ class MyEditor(context: Context, attributeSet: AttributeSet): View(context, attr
   private lateinit var bitmap: Bitmap
   private lateinit var canvas: Canvas
 
-  private fun getEditorViewInstance(): MyEditor {
-    return findViewById(R.id.editor)
-  }
-
   override fun onTouchEvent(event: MotionEvent?): Boolean {
-    shape.onTouchUp(event!!.x, event.y)
+    currentShape.onTouchUp(event!!.x, event.y)
 
     when (event.action) {
       MotionEvent.ACTION_DOWN -> {
         isLayout = true
-        shape.onTouchDown(event.x, event.y)
+        currentShape.onTouchDown(event.x, event.y)
       }
       MotionEvent.ACTION_MOVE -> {
         invalidate()
       }
       MotionEvent.ACTION_UP -> {
         isLayout = false
-        addShape(shape, shapes)
+        addShape(currentShape, shapes)
+        table.addRow(currentShape.name, currentShape.getCoordinates())
         createShape()
       }
     }
@@ -68,26 +66,27 @@ class MyEditor(context: Context, attributeSet: AttributeSet): View(context, attr
   }
 
   private fun createShape() {
-    val constructor = shape::class.primaryConstructor
-    shape = constructor!!.call(shape.borderColor, shape.fillColor)
+    val constructor = currentShape::class.primaryConstructor
+    currentShape = constructor!!.call(currentShape.borderColor, currentShape.fillColor)
   }
 
-  fun removeLastShape() {
+  fun removeLastShape(): Boolean {
     val i = shapes.indexOfLast { it != null }
-    if (i != -1) {
-      addShape(shapes[i], removedShapes)
-      shapes[i] = null
-    }
+    if (i == -1) return false
+    addShape(shapes[i], removedShapes)
+    shapes[i] = null
     invalidate()
+    return true
   }
 
-  fun restoreShape() {
+  fun restoreShape(): Shape? {
     val i = removedShapes.indexOfLast { it != null }
-    if (i != -1) {
-      addShape(removedShapes[i], shapes)
-      removedShapes[i] = null
-    }
+    if (i == -1) return null
+    val shape = removedShapes[i]
+    addShape(shape, shapes)
+    removedShapes[i] = null
     invalidate()
+    return shape
   }
 
   fun removeAll() {
@@ -104,6 +103,14 @@ class MyEditor(context: Context, attributeSet: AttributeSet): View(context, attr
     invalidate()
   }
 
+  fun setShape(shape: Shape) {
+    currentShape = shape
+  }
+
+  fun setShapeTable(table: Table) {
+    this.table = table
+  }
+
   override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
     super.onSizeChanged(w, h, oldw, oldh)
     bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
@@ -114,6 +121,6 @@ class MyEditor(context: Context, attributeSet: AttributeSet): View(context, attr
     super.onDraw(canvas)
     canvas.drawBitmap(bitmap, 0f, 0f, null)
     for (shape in shapes) shape?.draw(canvas)
-    if (isLayout) shape.drawFrame(canvas)
+    if (isLayout) currentShape.drawFrame(canvas)
   }
 }

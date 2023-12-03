@@ -6,6 +6,7 @@ const val RADIUS = 50
 
 class CircleLineShape(borderColor: Int, fillColor: Int): LineShape(borderColor, fillColor) {
   private val ellipseShape = EllipseShape(borderColor, fillColor)
+  override val name = "Лінія з кругами"
 
   override fun draw(canvas: Canvas) {
     super.draw(canvas)

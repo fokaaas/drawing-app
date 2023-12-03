@@ -15,18 +15,23 @@ import com.stbasarab.drawing_app.shapes.LineShape
 import com.stbasarab.drawing_app.shapes.PointShape
 import com.stbasarab.drawing_app.shapes.RectangleShape
 
-class MainActivity : AppCompatActivity(), GetInstanceInterface {
+class MainActivity : AppCompatActivity(), GetEditorViewInterface {
   private lateinit var myEditor: MyEditor
-  private lateinit var prevButton: ImageButton
+  private var prevButton: ImageButton? = null
+  private lateinit var table: Table
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
-    val point = findViewById<ImageButton>(R.id.point_tool)
     myEditor = MyEditor.getInstance(this)
-    prevButton = point
-    title = point.tag.toString()
-    myEditor.shape = PointShape(Color.BLACK, Color.TRANSPARENT)
+    myEditor.setShape(PointShape(Color.BLACK, Color.TRANSPARENT))
+    title = getString(R.string.point_title)
+
+    table = Table()
+    val fragmentTransaction = supportFragmentManager.beginTransaction()
+    fragmentTransaction.replace(R.id.table_container, table)
+    fragmentTransaction.commit()
+    myEditor.setShapeTable(table)
   }
 
   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -46,32 +51,45 @@ class MainActivity : AppCompatActivity(), GetInstanceInterface {
   }
 
   private fun updateState(name: String) {
-    prevButton.drawable?.setTint(getColor(R.color.white))
+    prevButton?.drawable?.setTint(getColor(R.color.white))
     title = name
   }
 
   fun onItemSelected(item: MenuItem) {
-    val resourceName = resources.getResourceEntryName(item.itemId)
     val title = item.title.toString()
-    if (!resourceName.endsWith("tool")) updateState(title)
+    updateState(title)
     selectAction(title)
+  }
+
+  fun onBackButton(item: MenuItem) {
+    val isRemoved = myEditor.removeLastShape()
+    if (isRemoved) table.removeLastRow()
+  }
+
+  fun onRemoveButton(item: MenuItem) {
+    myEditor.removeAll()
+    table.removeAllRows()
+  }
+
+  fun onRestoreButton(item: MenuItem) {
+    val shape = myEditor.restoreShape()
+    if (shape != null) {
+      table.addRow(shape.name, shape.getCoordinates())
+    }
   }
 
   private fun selectAction(name: String) {
     when (name) {
-      getString(R.string.point_title) -> myEditor.shape = PointShape(Color.BLACK, Color.TRANSPARENT)
-      getString(R.string.line_title) -> myEditor.shape = LineShape(Color.BLACK, Color.TRANSPARENT)
-      getString(R.string.rectangle_title) -> myEditor.shape = RectangleShape(Color.BLACK, Color.TRANSPARENT)
-      getString(R.string.ellipse_title) -> myEditor.shape = EllipseShape(Color.BLACK, Color.CYAN)
-      getString(R.string.circle_line_title) -> myEditor.shape = CircleLineShape(Color.BLACK, Color.CYAN)
-      getString(R.string.cube_title) -> myEditor.shape = CubeShape(Color.BLACK, Color.TRANSPARENT)
-      getString(R.string.back_title) -> myEditor.removeLastShape()
-      getString(R.string.next_title) -> myEditor.restoreShape()
-      getString(R.string.delete_title) -> myEditor.removeAll()
+      getString(R.string.point_title) -> myEditor.setShape(PointShape(Color.BLACK, Color.TRANSPARENT))
+      getString(R.string.line_title) -> myEditor.setShape(LineShape(Color.BLACK, Color.TRANSPARENT))
+      getString(R.string.rectangle_title) -> myEditor.setShape(RectangleShape(Color.BLACK, Color.TRANSPARENT))
+      getString(R.string.ellipse_title) -> myEditor.setShape(EllipseShape(Color.BLACK, Color.CYAN))
+      getString(R.string.circle_line_title) -> myEditor.setShape(CircleLineShape(Color.BLACK, Color.CYAN))
+      getString(R.string.cube_title) -> myEditor.setShape(CubeShape(Color.BLACK, Color.TRANSPARENT))
     }
   }
 
-  override fun getEditorInstance(): MyEditor {
+  override fun getEditorViewInstance(): MyEditor {
     return findViewById(R.id.editor)
   }
 }

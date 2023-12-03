@@ -14,5 +14,10 @@
     <string name="save_title">Зберегти</string>
     <string name="open_title">Відкрити</string>
     <string name="info_title">Довідка</string>
+    <string name="name_title">Назва</string>
+    <string name="x1_title">x1</string>
+    <string name="y1_title">y1</string>
+    <string name="x2_title">x2</string>
+    <string name="y2_title">y2</string>
     <string name="alert">Куди лізеш! Більше не можна!</string>
 </resources>

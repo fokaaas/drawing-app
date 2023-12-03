@@ -3,6 +3,8 @@ package com.stbasarab.drawing_app.shapes
 import android.graphics.Canvas
 
 class RectangleShape(borderColor: Int, fillColor: Int): Shape(borderColor, fillColor) {
+  override val name = "Прямокутник"
+
   override fun draw(canvas: Canvas) {
     setStrokeStyle()
     drawCenterRect(canvas, startX, startY, endX, endY)

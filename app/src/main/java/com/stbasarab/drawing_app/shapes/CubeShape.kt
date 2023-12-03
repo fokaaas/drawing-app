@@ -4,6 +4,7 @@ import android.graphics.Canvas
 
 class CubeShape(borderColor: Int, fillColor: Int): LineShape(borderColor, fillColor) {
   private val rectangleShape = RectangleShape(borderColor, fillColor)
+  override val name = "Куб"
 
   override fun draw(canvas: Canvas) {
     rectangleShape.setStrokeStyle()

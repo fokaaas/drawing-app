@@ -51,6 +51,13 @@ abstract class Shape(val borderColor: Int, val fillColor: Int) {
     endY = y
   }
 
+  fun getCoordinates(): List<Float> {
+    return listOf(startX, startY, endX, endY)
+  }
+
+  abstract val name: String
+
   abstract fun draw(canvas: Canvas)
+
   abstract fun drawFrame(canvas: Canvas)
 }

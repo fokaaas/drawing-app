@@ -3,6 +3,8 @@ package com.stbasarab.drawing_app.shapes
 import android.graphics.Canvas
 
 open class LineShape(borderColor: Int, fillColor: Int): Shape(borderColor, fillColor) {
+  override val name = "Лінія"
+
   override fun draw(canvas: Canvas) {
     setStrokeStyle()
     drawLine(canvas, startX, startY, endX, endY)
