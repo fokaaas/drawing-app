@@ -28,8 +28,8 @@ class FileManager(private val context: Context) {
     return String(buffer, 0, bytesRead)
   }
 
-  fun getNamesOfFiles(): Array<String>? {
+  fun getNamesOfFiles(): Array<String> {
     val internalStorageDir = context.filesDir
-    return internalStorageDir?.list()
+    return internalStorageDir.list()?.filter { it != "rList" }!!.toTypedArray()
   }
 }
