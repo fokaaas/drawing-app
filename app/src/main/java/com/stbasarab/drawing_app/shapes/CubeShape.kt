@@ -2,8 +2,8 @@ package com.stbasarab.drawing_app.shapes
 
 import android.graphics.Canvas
 
-class CubeShape(borderColor: Int, fillColor: Int): LineShape(borderColor, fillColor) {
-  private val rectangleShape = RectangleShape(borderColor, fillColor)
+class CubeShape: LineShape() {
+  private val rectangleShape = RectangleShape()
   override val name = "Куб"
 
   override fun draw(canvas: Canvas) {

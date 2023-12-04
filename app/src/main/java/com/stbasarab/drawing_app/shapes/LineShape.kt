@@ -1,8 +1,9 @@
 package com.stbasarab.drawing_app.shapes
 
 import android.graphics.Canvas
+import android.graphics.Color
 
-open class LineShape(borderColor: Int, fillColor: Int): Shape(borderColor, fillColor) {
+open class LineShape: Shape(Color.BLACK, Color.TRANSPARENT) {
   override val name = "Лінія"
 
   override fun draw(canvas: Canvas) {

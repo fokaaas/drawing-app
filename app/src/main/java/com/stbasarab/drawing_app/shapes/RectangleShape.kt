@@ -1,8 +1,9 @@
 package com.stbasarab.drawing_app.shapes
 
 import android.graphics.Canvas
+import android.graphics.Color
 
-class RectangleShape(borderColor: Int, fillColor: Int): Shape(borderColor, fillColor) {
+class RectangleShape: Shape(Color.BLACK, Color.TRANSPARENT) {
   override val name = "Прямокутник"
 
   override fun draw(canvas: Canvas) {

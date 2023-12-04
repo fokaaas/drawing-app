@@ -51,13 +51,13 @@
     <item
         android:id="@+id/save_tool"
         android:title="@string/save_title"
-        android:onClick="onItemSelected"
+        android:onClick="onSaveOption"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/open_tool"
         android:title="@string/open_title"
-        android:onClick="onItemSelected"
+        android:onClick="onOpenOption"
         app:showAsAction="ifRoom" />
 
     <item

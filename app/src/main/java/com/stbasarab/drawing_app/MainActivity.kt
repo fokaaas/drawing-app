@@ -1,14 +1,15 @@
 package com.stbasarab.drawing_app
 
 import android.app.AlertDialog
-import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.stbasarab.drawing_app.shapes.CircleLineShape
 import com.stbasarab.drawing_app.shapes.CubeShape
@@ -22,13 +23,15 @@ class MainActivity : AppCompatActivity(), MainActivityInterface {
   private var prevButton: ImageButton? = null
   private lateinit var table: Table
   private lateinit var tableContainer: LinearLayout
+  private lateinit var fileManager: FileManager
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
     tableContainer = findViewById(R.id.table_container)
+    fileManager = FileManager(this)
     myEditor = MyEditor.getInstance(this)
-    myEditor.setShape(PointShape(Color.BLACK, Color.TRANSPARENT))
+    myEditor.setShape(PointShape())
     title = getString(R.string.point_title)
 
     table = Table(this)
@@ -103,14 +106,67 @@ class MainActivity : AppCompatActivity(), MainActivityInterface {
     alertDialog.show()
   }
 
+  fun onOpenOption(item: MenuItem) {
+    val names = fileManager.getNamesOfFiles()
+    var index: Int = -1
+    AlertDialog.Builder(this)
+      .setTitle(item.title)
+      .setSingleChoiceItems(names, index) { _, which ->
+        index = which
+      }
+      .setPositiveButton(R.string.open_title) { _, _ ->
+        if (index != -1) {
+          val data = fileManager.readFile(names!![index])
+          table.removeAllRows()
+          myEditor.loadData(data)
+        }
+      }
+      .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+        dialog.cancel()
+      }
+      .create()
+      .show()
+  }
+
+  fun onSaveOption(item: MenuItem) {
+    val input = EditText(this)
+    AlertDialog.Builder(this)
+      .setTitle(R.string.name_of_file_title)
+      .setView(input)
+      .setPositiveButton(R.string.save_title) { _, _ ->
+        val fileName = input.text.toString()
+        val alert = getString(R.string.success)
+        fileManager.writeFile(fileName, getFileData())
+        Toast.makeText(this, alert, Toast.LENGTH_SHORT).show()
+      }
+      .setNegativeButton(R.string.cancel) { dialog, _ ->
+        dialog.cancel()
+      }
+      .create()
+      .show()
+  }
+
+  private fun getFileData(): String {
+    val shapes = myEditor.getShapes()
+    var data = ""
+    for (shape in shapes) {
+      val coords = shape.getCoordinates()
+      data += "${shape.javaClass.name}\t"
+      coords.forEach { data += "$it\t" }
+      data = data.dropLast(1)
+      data += "\n"
+    }
+    return data.dropLast(1)
+  }
+
   private fun selectAction(name: String) {
     when (name) {
-      getString(R.string.point_title) -> myEditor.setShape(PointShape(Color.BLACK, Color.TRANSPARENT))
-      getString(R.string.line_title) -> myEditor.setShape(LineShape(Color.BLACK, Color.TRANSPARENT))
-      getString(R.string.rectangle_title) -> myEditor.setShape(RectangleShape(Color.BLACK, Color.TRANSPARENT))
-      getString(R.string.ellipse_title) -> myEditor.setShape(EllipseShape(Color.BLACK, Color.CYAN))
-      getString(R.string.circle_line_title) -> myEditor.setShape(CircleLineShape(Color.BLACK, Color.CYAN))
-      getString(R.string.cube_title) -> myEditor.setShape(CubeShape(Color.BLACK, Color.TRANSPARENT))
+      getString(R.string.point_title) -> myEditor.setShape(PointShape())
+      getString(R.string.line_title) -> myEditor.setShape(LineShape())
+      getString(R.string.rectangle_title) -> myEditor.setShape(RectangleShape())
+      getString(R.string.ellipse_title) -> myEditor.setShape(EllipseShape())
+      getString(R.string.circle_line_title) -> myEditor.setShape(CircleLineShape())
+      getString(R.string.cube_title) -> myEditor.setShape(CubeShape())
     }
   }
 

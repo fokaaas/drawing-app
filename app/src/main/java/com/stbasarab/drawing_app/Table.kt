@@ -11,7 +11,6 @@ import android.widget.ScrollView
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
-import androidx.core.view.children
 import androidx.core.view.setMargins
 import androidx.fragment.app.Fragment
 

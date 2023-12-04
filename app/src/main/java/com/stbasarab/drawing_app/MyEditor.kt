@@ -9,6 +9,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import com.stbasarab.drawing_app.shapes.Shape
+import kotlin.reflect.full.createInstance
 import kotlin.reflect.full.primaryConstructor
 
 private const val SHAPES_LENGTH = 103
@@ -46,7 +47,7 @@ class MyEditor(context: Context, attributeSet: AttributeSet): View(context, attr
       }
       MotionEvent.ACTION_UP -> {
         isLayout = false
-        addShape(currentShape, shapes)
+        addShape(currentShape)
         createShape()
       }
     }
@@ -55,11 +56,11 @@ class MyEditor(context: Context, attributeSet: AttributeSet): View(context, attr
     return true
   }
 
-  private fun addShape(shape: Shape?, shapes: Array<Shape?>) {
+  private fun addShape(shape: Shape?) {
     val index = shapes.indexOfFirst { it == null }
     if (index != -1) {
       shapes[index] = shape
-      table.addRow(currentShape.name, currentShape.getCoordinates())
+      table.addRow(shape!!.name, shape.getCoordinates())
     } else {
       val alert = context.getString(R.string.alert)
       Toast.makeText(context, alert, Toast.LENGTH_SHORT).show()
@@ -68,7 +69,7 @@ class MyEditor(context: Context, attributeSet: AttributeSet): View(context, attr
 
   private fun createShape() {
     val constructor = currentShape::class.primaryConstructor
-    currentShape = constructor!!.call(currentShape.borderColor, currentShape.fillColor)
+    currentShape = constructor!!.call()
   }
 
   fun removeShapeByIndex(index: Int) {
@@ -80,9 +81,7 @@ class MyEditor(context: Context, attributeSet: AttributeSet): View(context, attr
   }
 
   fun removeAll() {
-    for (i in shapes.indices) {
-      shapes[i] = null
-    }
+    shapes.fill(null)
     invalidate()
   }
 
@@ -104,6 +103,24 @@ class MyEditor(context: Context, attributeSet: AttributeSet): View(context, attr
 
   fun setShapeTable(table: Table) {
     this.table = table
+  }
+
+  fun getShapes(): Array<Shape> {
+    return shapes.filterNotNull().toTypedArray()
+  }
+
+  fun loadData(data: String) {
+    removeAll()
+    val shapes = data.split("\n")
+    for (shape in shapes) {
+      val values = shape.split("\t")
+      val shapeClass = Class.forName(values[0]).kotlin
+      val instance = shapeClass.createInstance() as Shape
+      instance.onTouchDown(values[1].toFloat(), values[2].toFloat())
+      instance.onTouchUp(values[3].toFloat(), values[4].toFloat())
+      addShape(instance)
+    }
+    invalidate()
   }
 
   override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {

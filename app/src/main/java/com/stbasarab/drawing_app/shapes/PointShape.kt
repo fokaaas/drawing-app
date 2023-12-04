@@ -1,8 +1,9 @@
 package com.stbasarab.drawing_app.shapes
 
 import android.graphics.Canvas
+import android.graphics.Color
 
-class PointShape(borderColor: Int, fillColor: Int): Shape(borderColor, fillColor) {
+class PointShape: Shape(Color.BLACK, Color.TRANSPARENT) {
   override val name = "Крапка"
 
   override fun draw(canvas: Canvas) {
