@@ -7,6 +7,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.stbasarab.drawing_app.shapes.CircleLineShape
 import com.stbasarab.drawing_app.shapes.CubeShape
@@ -19,10 +20,12 @@ class MainActivity : AppCompatActivity(), MainActivityInterface {
   private lateinit var myEditor: MyEditor
   private var prevButton: ImageButton? = null
   private lateinit var table: Table
+  private lateinit var tableContainer: LinearLayout
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
+    tableContainer = findViewById(R.id.table_container)
     myEditor = MyEditor.getInstance(this)
     myEditor.setShape(PointShape(Color.BLACK, Color.TRANSPARENT))
     title = getString(R.string.point_title)
@@ -83,6 +86,17 @@ class MainActivity : AppCompatActivity(), MainActivityInterface {
       myEditor.highlightShape(index)
     } else {
       myEditor.setDefaultStyle(index)
+    }
+  }
+
+  fun onTableButton(view: View) {
+    val imageButton = findViewById<ImageButton>(view.id)
+    if (tableContainer.visibility == View.GONE) {
+      tableContainer.visibility = View.VISIBLE
+      imageButton.drawable.setTint(getColor(R.color.purple))
+    } else {
+      tableContainer.visibility = View.GONE
+      imageButton.drawable.setTint(getColor(R.color.white))
     }
   }
 
