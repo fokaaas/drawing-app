@@ -4,6 +4,7 @@
     android:id="@+id/table_frame"
     android:layout_width="match_parent"
     android:layout_height="200sp"
+    android:padding="3dp"
     android:layout_gravity="bottom">
 
     <ScrollView
@@ -17,30 +18,47 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:stretchColumns="*">
-            <TableRow>
+            <TableRow
+                android:background="@color/violet">
                 <TextView
                     android:text="@string/name_title"
                     android:gravity="center"
-                    android:padding="3dip" />
+                    android:background="@color/white"
+                    android:layout_margin="1dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/violet" />
+
                 <TextView
                     android:text="@string/x1_title"
                     android:gravity="center"
-                    android:padding="3dip" />
+                    android:background="@color/white"
+                    android:layout_margin="1dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/violet" />
 
                 <TextView
                     android:text="@string/y1_title"
                     android:gravity="center"
-                    android:padding="3dip" />
+                    android:background="@color/white"
+                    android:layout_margin="1dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/violet" />
 
                 <TextView
                     android:text="@string/x2_title"
                     android:gravity="center"
-                    android:padding="3dip" />
+                    android:background="@color/white"
+                    android:layout_margin="1dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/violet" />
 
                 <TextView
                     android:text="@string/y2_title"
                     android:gravity="center"
-                    android:padding="3dip" />
+                    android:background="@color/white"
+                    android:layout_margin="1dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/violet" />
             </TableRow>
         </TableLayout>
 

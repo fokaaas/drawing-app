@@ -63,7 +63,7 @@
     <item
         android:id="@+id/info_tool"
         android:title="@string/info_title"
-        android:onClick="onItemSelected"
+        android:onClick="onInfoOption"
         app:showAsAction="ifRoom" />
 
 </menu>

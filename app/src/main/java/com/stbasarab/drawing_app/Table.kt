@@ -11,6 +11,8 @@ import android.widget.ScrollView
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
+import androidx.core.view.children
+import androidx.core.view.setMargins
 import androidx.fragment.app.Fragment
 
 class Table(private val mainActivityInterface: MainActivityInterface): Fragment() {
@@ -30,20 +32,34 @@ class Table(private val mainActivityInterface: MainActivityInterface): Fragment(
 
   private fun getTextView(value: String): TextView {
     val textView = TextView(tableLayout.context)
+    val params = TableRow.LayoutParams(
+      TableRow.LayoutParams.MATCH_PARENT,
+      TableRow.LayoutParams.WRAP_CONTENT
+    )
+    params.setMargins(3)
     textView.text = value
-    textView.setPadding(3, 3, 3, 3)
     textView.gravity = Gravity.CENTER
+    textView.layoutParams = params
+    textView.setBackgroundColor(Color.WHITE)
     return textView
   }
 
+  private fun changeRowColor(tableRow: TableRow, color: Int) {
+    for (i in 0 until tableRow.childCount) {
+      val child = tableRow.getChildAt(i)
+      child.setBackgroundColor(color)
+    }
+  }
+
   private fun onClickRowListener(view: View) {
-    val current = (view.background as ColorDrawable).color
+    val tableRow = view as TableRow
+    val current = (view.getChildAt(0).background as ColorDrawable).color
     val index = tableLayout.indexOfChild(view) - 1
-    if (current == 0) {
-      view.setBackgroundColor(requireContext().getColor(R.color.purple))
+    if (current == Color.WHITE) {
+      changeRowColor(tableRow, requireContext().getColor(R.color.purple))
       mainActivityInterface.onHighlightElement(index, true)
     } else {
-      view.setBackgroundColor(Color.TRANSPARENT)
+      changeRowColor(tableRow, Color.WHITE)
       mainActivityInterface.onHighlightElement(index, false)
     }
   }
@@ -64,7 +80,7 @@ class Table(private val mainActivityInterface: MainActivityInterface): Fragment(
       tableRow.addView(view)
     }
 
-    tableRow.setBackgroundColor(0)
+    tableRow.setBackgroundColor(requireContext().getColor(R.color.violet))
     tableRow.setOnClickListener { onClickRowListener(it) }
     tableRow.setOnLongClickListener { onLongClickRowListener(it) }
     tableLayout.addView(tableRow)

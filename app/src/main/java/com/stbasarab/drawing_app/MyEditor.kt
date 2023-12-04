@@ -9,7 +9,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import com.stbasarab.drawing_app.shapes.Shape
-import java.lang.Exception
 import kotlin.reflect.full.primaryConstructor
 
 private const val SHAPES_LENGTH = 103

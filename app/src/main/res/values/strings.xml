@@ -14,6 +14,8 @@
     <string name="save_title">Зберегти</string>
     <string name="open_title">Відкрити</string>
     <string name="info_title">Довідка</string>
+    <string name="info">Ласкаво просимо в програму для малювання! Це потужний інструмент, який дозволяє вам виразити свою творчість через малювання та створення графіки. Незалежно від того, чи ви новачок або досвідчений художник, ця програма створена для задоволення вашої творчої потреби.</string>
+    <string name="close">Закрити</string>
     <string name="name_title">Назва</string>
     <string name="x1_title">x1</string>
     <string name="y1_title">y1</string>

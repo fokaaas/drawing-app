@@ -1,5 +1,6 @@
 package com.stbasarab.drawing_app
 
+import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
@@ -90,6 +91,16 @@ class MainActivity : AppCompatActivity(), MainActivityInterface {
       tableContainer.visibility = View.GONE
       imageButton.drawable.setTint(getColor(R.color.white))
     }
+  }
+
+  fun onInfoOption(item: MenuItem) {
+    val alertDialogBuilder = AlertDialog.Builder(this)
+    alertDialogBuilder.setTitle(item.title)
+    alertDialogBuilder.setMessage(getString(R.string.info))
+    alertDialogBuilder.setPositiveButton(getString(R.string.close)) { dialog, _ -> dialog.dismiss() }
+
+    val alertDialog = alertDialogBuilder.create()
+    alertDialog.show()
   }
 
   private fun selectAction(name: String) {
