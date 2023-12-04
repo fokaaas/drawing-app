@@ -9,14 +9,14 @@ import android.graphics.Paint
 private const val STROKE_WITH = 10f
 
 abstract class Shape(val borderColor: Int, val fillColor: Int) {
+  protected var currentBorder = borderColor
+
   protected var startX = 0f
   protected var startY = 0f
   protected var endX = 0f
   protected var endY = 0f
 
   protected val paint = Paint().apply {
-    style = Paint.Style.STROKE
-    color = borderColor
     isAntiAlias
     isDither
     strokeWidth = STROKE_WITH
@@ -25,7 +25,7 @@ abstract class Shape(val borderColor: Int, val fillColor: Int) {
 
   fun setStrokeStyle() {
     paint.style = Paint.Style.STROKE
-    paint.color = borderColor
+    paint.color = currentBorder
     paint.pathEffect = null
   }
 
@@ -39,6 +39,14 @@ abstract class Shape(val borderColor: Int, val fillColor: Int) {
     paint.style = Paint.Style.STROKE
     paint.color = Color.BLACK
     paint.pathEffect = DashPathEffect(floatArrayOf(30f, 20f), 0f)
+  }
+
+  fun setCustomBorder(color: Int) {
+    currentBorder = color
+  }
+
+  fun setDefaultBorder() {
+    currentBorder = borderColor
   }
 
   fun onTouchDown(x: Float, y: Float) {

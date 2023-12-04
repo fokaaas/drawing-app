@@ -10,6 +10,7 @@ class CircleLineShape(borderColor: Int, fillColor: Int): LineShape(borderColor, 
 
   override fun draw(canvas: Canvas) {
     super.draw(canvas)
+    ellipseShape.setCustomBorder(currentBorder)
     setEllipseCoordinates(startX, startY)
     ellipseShape.draw(canvas)
     setEllipseCoordinates(endX, endY)

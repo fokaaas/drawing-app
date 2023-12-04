@@ -3,6 +3,7 @@ package com.stbasarab.drawing_app
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -16,7 +17,7 @@ class MyEditor(context: Context, attributeSet: AttributeSet): View(context, attr
   companion object {
     private var instance: MyEditor? = null
 
-    fun getInstance(editor: GetEditorViewInterface?): MyEditor {
+    fun getInstance(editor: MainActivityInterface?): MyEditor {
       if (instance == null) {
         instance = editor?.getEditorViewInstance()
       }
@@ -100,6 +101,18 @@ class MyEditor(context: Context, attributeSet: AttributeSet): View(context, attr
     for (i in removedShapes.indices) {
       removedShapes[i] = null
     }
+    invalidate()
+  }
+
+  fun highlightShape(index: Int) {
+    val shape = shapes[index]
+    shape!!.setCustomBorder(Color.MAGENTA)
+    invalidate()
+  }
+
+  fun setDefaultStyle(index: Int) {
+    val shape = shapes[index]
+    shape!!.setDefaultBorder()
     invalidate()
   }
 

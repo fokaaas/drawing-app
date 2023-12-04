@@ -7,6 +7,7 @@ class CubeShape(borderColor: Int, fillColor: Int): LineShape(borderColor, fillCo
   override val name = "Куб"
 
   override fun draw(canvas: Canvas) {
+    rectangleShape.setCustomBorder(currentBorder)
     rectangleShape.setStrokeStyle()
     setStrokeStyle()
     drawCube(canvas)

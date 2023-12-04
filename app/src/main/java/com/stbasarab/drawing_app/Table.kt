@@ -1,5 +1,7 @@
 package com.stbasarab.drawing_app
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -11,7 +13,7 @@ import android.widget.TableRow
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 
-class Table: Fragment() {
+class Table(private val mainActivityInterface: MainActivityInterface): Fragment() {
   private lateinit var tableLayout: TableLayout
   private lateinit var scrollView: ScrollView
 
@@ -34,13 +36,29 @@ class Table: Fragment() {
     return textView
   }
 
+  private fun onClickRowListener(view: View) {
+    val current = (view.background as ColorDrawable).color
+    val index = tableLayout.indexOfChild(view) - 1
+    if (current == 0) {
+      view.setBackgroundColor(requireContext().getColor(R.color.purple))
+      mainActivityInterface.onHighlightElement(index, true)
+    } else {
+      view.setBackgroundColor(Color.TRANSPARENT)
+      mainActivityInterface.onHighlightElement(index, false)
+    }
+  }
+
   fun addRow(name: String, values: List<Float>) {
     val tableRow = TableRow(tableLayout.context)
     tableRow.addView(getTextView(name))
+
     for (value in values) {
       val view = getTextView(String.format("%.2f", value))
       tableRow.addView(view)
     }
+
+    tableRow.setBackgroundColor(0)
+    tableRow.setOnClickListener { onClickRowListener(it) }
     tableLayout.addView(tableRow)
     scrollView.post { scrollView.fullScroll(View.FOCUS_DOWN) }
   }

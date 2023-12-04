@@ -15,7 +15,7 @@ import com.stbasarab.drawing_app.shapes.LineShape
 import com.stbasarab.drawing_app.shapes.PointShape
 import com.stbasarab.drawing_app.shapes.RectangleShape
 
-class MainActivity : AppCompatActivity(), GetEditorViewInterface {
+class MainActivity : AppCompatActivity(), MainActivityInterface {
   private lateinit var myEditor: MyEditor
   private var prevButton: ImageButton? = null
   private lateinit var table: Table
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity(), GetEditorViewInterface {
     myEditor.setShape(PointShape(Color.BLACK, Color.TRANSPARENT))
     title = getString(R.string.point_title)
 
-    table = Table()
+    table = Table(this)
     val fragmentTransaction = supportFragmentManager.beginTransaction()
     fragmentTransaction.replace(R.id.table_container, table)
     fragmentTransaction.commit()
@@ -75,6 +75,14 @@ class MainActivity : AppCompatActivity(), GetEditorViewInterface {
     val shape = myEditor.restoreShape()
     if (shape != null) {
       table.addRow(shape.name, shape.getCoordinates())
+    }
+  }
+
+  override fun onHighlightElement(index: Int, isHighlight: Boolean) {
+    if (isHighlight) {
+      myEditor.highlightShape(index)
+    } else {
+      myEditor.setDefaultStyle(index)
     }
   }
 
