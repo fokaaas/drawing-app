@@ -9,6 +9,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import com.stbasarab.drawing_app.shapes.Shape
+import java.lang.Exception
 import kotlin.reflect.full.primaryConstructor
 
 private const val SHAPES_LENGTH = 103
@@ -28,8 +29,7 @@ class MyEditor(context: Context, attributeSet: AttributeSet): View(context, attr
   private lateinit var currentShape: Shape
   private lateinit var table: Table
 
-  private var shapes: Array<Shape?> = Array(SHAPES_LENGTH) { null }
-  private var removedShapes: Array<Shape?> = Array(SHAPES_LENGTH) { null }
+  private val shapes: Array<Shape?> = Array(SHAPES_LENGTH) { null }
   private var isLayout = true
   private lateinit var bitmap: Bitmap
   private lateinit var canvas: Canvas
@@ -48,18 +48,19 @@ class MyEditor(context: Context, attributeSet: AttributeSet): View(context, attr
       MotionEvent.ACTION_UP -> {
         isLayout = false
         addShape(currentShape, shapes)
-        table.addRow(currentShape.name, currentShape.getCoordinates())
         createShape()
       }
     }
 
-    resetRestore()
+    invalidate()
     return true
   }
+
   private fun addShape(shape: Shape?, shapes: Array<Shape?>) {
     val index = shapes.indexOfFirst { it == null }
     if (index != -1) {
       shapes[index] = shape
+      table.addRow(currentShape.name, currentShape.getCoordinates())
     } else {
       val alert = context.getString(R.string.alert)
       Toast.makeText(context, alert, Toast.LENGTH_SHORT).show()
@@ -71,35 +72,17 @@ class MyEditor(context: Context, attributeSet: AttributeSet): View(context, attr
     currentShape = constructor!!.call(currentShape.borderColor, currentShape.fillColor)
   }
 
-  fun removeLastShape(): Boolean {
-    val i = shapes.indexOfLast { it != null }
-    if (i == -1) return false
-    addShape(shapes[i], removedShapes)
-    shapes[i] = null
+  fun removeShapeByIndex(index: Int) {
+    shapes[index] = null
+    val nonNullShapes = shapes.filterNotNull().toTypedArray()
+    shapes.fill(null)
+    nonNullShapes.copyInto(shapes, startIndex = 0)
     invalidate()
-    return true
-  }
-
-  fun restoreShape(): Shape? {
-    val i = removedShapes.indexOfLast { it != null }
-    if (i == -1) return null
-    val shape = removedShapes[i]
-    addShape(shape, shapes)
-    removedShapes[i] = null
-    invalidate()
-    return shape
   }
 
   fun removeAll() {
     for (i in shapes.indices) {
       shapes[i] = null
-    }
-    resetRestore()
-  }
-
-  private fun resetRestore() {
-    for (i in removedShapes.indices) {
-      removedShapes[i] = null
     }
     invalidate()
   }

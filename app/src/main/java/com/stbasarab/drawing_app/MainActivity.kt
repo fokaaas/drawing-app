@@ -64,21 +64,9 @@ class MainActivity : AppCompatActivity(), MainActivityInterface {
     selectAction(title)
   }
 
-  fun onBackButton(item: MenuItem) {
-    val isRemoved = myEditor.removeLastShape()
-    if (isRemoved) table.removeLastRow()
-  }
-
   fun onRemoveButton(item: MenuItem) {
     myEditor.removeAll()
     table.removeAllRows()
-  }
-
-  fun onRestoreButton(item: MenuItem) {
-    val shape = myEditor.restoreShape()
-    if (shape != null) {
-      table.addRow(shape.name, shape.getCoordinates())
-    }
   }
 
   override fun onHighlightElement(index: Int, isHighlight: Boolean) {
@@ -87,6 +75,10 @@ class MainActivity : AppCompatActivity(), MainActivityInterface {
     } else {
       myEditor.setDefaultStyle(index)
     }
+  }
+
+  override fun onRemoveShapeFromRow(index: Int) {
+    myEditor.removeShapeByIndex(index)
   }
 
   fun onTableButton(view: View) {

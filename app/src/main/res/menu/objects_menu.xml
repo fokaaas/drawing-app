@@ -42,20 +42,6 @@
     </item>
 
     <item
-        android:id="@+id/back_tool"
-        android:icon="@drawable/back_icon"
-        android:onClick="onBackButton"
-        android:title="@string/back_title"
-        app:showAsAction="always" />
-
-    <item
-        android:id="@+id/next_tool"
-        android:icon="@drawable/next_icon"
-        android:onClick="onRestoreButton"
-        android:title="@string/next_title"
-        app:showAsAction="always" />
-
-    <item
         android:id="@+id/delete_tool"
         android:icon="@drawable/delete_icon"
         android:onClick="onRemoveButton"

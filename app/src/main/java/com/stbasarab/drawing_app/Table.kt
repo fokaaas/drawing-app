@@ -48,6 +48,13 @@ class Table(private val mainActivityInterface: MainActivityInterface): Fragment(
     }
   }
 
+  private fun onLongClickRowListener(view: View): Boolean {
+    val index = tableLayout.indexOfChild(view) - 1
+    tableLayout.removeView(view)
+    mainActivityInterface.onRemoveShapeFromRow(index)
+    return true
+  }
+
   fun addRow(name: String, values: List<Float>) {
     val tableRow = TableRow(tableLayout.context)
     tableRow.addView(getTextView(name))
@@ -59,17 +66,13 @@ class Table(private val mainActivityInterface: MainActivityInterface): Fragment(
 
     tableRow.setBackgroundColor(0)
     tableRow.setOnClickListener { onClickRowListener(it) }
+    tableRow.setOnLongClickListener { onLongClickRowListener(it) }
     tableLayout.addView(tableRow)
     scrollView.post { scrollView.fullScroll(View.FOCUS_DOWN) }
   }
 
-  fun removeLastRow() {
-    val count = tableLayout.childCount
-    tableLayout.removeViewAt(count - 1)
-  }
-
   fun removeAllRows() {
-    val count = tableLayout.childCount
-    tableLayout.removeViews(1, count - 1)
+    val count = tableLayout.childCount - 1
+    tableLayout.removeViews(1, count)
   }
 }
